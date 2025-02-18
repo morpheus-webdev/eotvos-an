@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import { ITask } from '../util/util';
 
 interface ITaskContext {
@@ -23,6 +23,9 @@ export const TaskContextProvider = ({
 	children: React.ReactNode;
 }) => {
 	const [tasks, setTasks] = useState<ITask[]>([]);
+	useEffect(() => {
+		console.log(tasks);
+	}, [tasks]);
 	function addTask(task: ITask) {
 		if (tasks.find(({ name }) => name === task.name)) {
 			console.error(`Name '${task.name}' already taken`);
@@ -36,8 +39,19 @@ export const TaskContextProvider = ({
 		});
 		setTasks(copy);
 	}
+	function changeStatus(name: string) {
+		let copy = tasks.map((t) => {
+			if (t.name === name) {
+				return { ...t, isCompleted: !t.isCompleted };
+			} else {
+				return t;
+			}
+		});
+		setTasks(copy);
+	}
 	return (
-		<TaskContext.Provider value={{ tasks, addTask, removeTaskByName }}>
+		<TaskContext.Provider
+			value={{ tasks, addTask, removeTaskByName, changeStatus }}>
 			{children}
 		</TaskContext.Provider>
 	);

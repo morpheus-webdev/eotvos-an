@@ -5,7 +5,7 @@ import { TaskContext } from '../../contexts/TaskContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const Task = (props: { task: ITask }) => {
-	const { removeTaskByName } = useContext(TaskContext);
+	const { removeTaskByName, changeStatus } = useContext(TaskContext);
 	const t = props.task;
 	return (
 		<div
@@ -13,7 +13,7 @@ const Task = (props: { task: ITask }) => {
 				width: '25vw',
 				height: '35vh',
 				margin: '1rem',
-				backgroundColor: '#f1c65f',
+				backgroundColor: t.isCompleted ? 'grey' : '#f1c65f',
 				borderRadius: '5%',
 				display: 'flex',
 				flexDirection: 'column',
@@ -23,7 +23,7 @@ const Task = (props: { task: ITask }) => {
 			}}>
 			<h4>{t.name}</h4>
 			<p>{t.duration} minutes</p>
-			<Checkbox />
+			<Checkbox value={t.isCompleted} onChange={() => changeStatus(t.name)} />
 			<div
 				style={{
 					width: '100%',
@@ -32,10 +32,7 @@ const Task = (props: { task: ITask }) => {
 					justifyContent: 'end',
 				}}>
 				<Button onClick={() => removeTaskByName(t.name)}>
-					<DeleteIcon
-						id='delete-icon'
-						sx={{ color: 'red', '&:hover': { color: 'white' } }}
-					/>
+					<DeleteIcon sx={{ color: 'red', '&:hover': { color: 'white' } }} />
 				</Button>
 			</div>
 		</div>
