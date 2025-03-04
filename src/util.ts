@@ -9,9 +9,9 @@ export type BiomeType =
 	| 'Arctic';
 
 export interface IAnimal {
-	animalClass: ClassType;
+	class: ClassType;
 	biome: BiomeType;
-	animalName: string;
+	name: string;
 	animalia: string;
 	legs: number;
 	isPredator: boolean;
@@ -22,9 +22,9 @@ export interface IAnimal {
 }
 
 export const defaultAnimal: IAnimal = {
-	animalClass: "Mammals",
+	class: "Mammals",
 	biome: "Arctic",
-	animalName: '',
+	name: '',
 	animalia: '',
 	legs: 0,
 	isPredator: false,

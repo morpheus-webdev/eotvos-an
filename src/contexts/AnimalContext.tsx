@@ -7,14 +7,16 @@ import { IAnimal } from '../util';
 interface IAnimalContext {
 	animals: IAnimal[];
 	initAnimals: () => void;
-	addAnimal: (animal: IAnimal) => void;
+	addAnimal: (animal: IAnimal) => Promise<Response>;
 	changeLikesDislikes: (animal: IAnimal, num: number) => void;
 }
 //default obj
 const defaultAnimalContext: IAnimalContext = {
 	animals: [],
 	initAnimals: async () => {},
-	addAnimal: (animal: IAnimal) => {},
+	addAnimal: async (animal: IAnimal): Promise<Response> => {
+		return new Response('OK', { status: 201 });
+	},
 	changeLikesDislikes: (animal: IAnimal, num: number) => {},
 };
 //context
@@ -34,8 +36,15 @@ export const AnimalContextProvider = ({
 		);
 		setAnimals(allAnimals);
 	}
-	function addAnimal(animal: IAnimal) {
-		//TODO
+	async function addAnimal(animal: IAnimal): Promise<Response> {
+		let res = await fetch('/api/new-animal', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(animal),
+		});
+		return res;
 	}
 	function changeLikesDislikes(animal: IAnimal, num: number) {
 		//TODO
